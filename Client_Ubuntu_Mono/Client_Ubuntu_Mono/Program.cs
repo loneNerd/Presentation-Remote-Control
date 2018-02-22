@@ -13,6 +13,7 @@ namespace Client_Ubuntu_Mono
 
 		public static void Main (string[] args)
 		{
+			Console.WriteLine ("For correct programm work please install xdotool");
 			Console.WriteLine ("Enter this ip into your smartphone app: " + Dns.GetHostAddresses(Dns.GetHostName())[0].ToString());
 			ProcessStartInfo proc = new ProcessStartInfo();
 			Socket listner = new Socket (AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
