@@ -15,10 +15,7 @@ namespace Client
             nextSlide,
             prevSlide,
             exit
-    }
-        const int nextSlide = 1;
-        const int prevSlide = 2;
-        const int exit = 3;
+        };
 
         static void Main(string[] args)
         {
