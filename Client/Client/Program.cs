@@ -8,14 +8,8 @@ namespace Client
     class Program
     {
         const int port = 10000;
-
-        enum Commands
-        {
-            test,
-            nextSlide,
-            prevSlide,
-            exit
-        };
+        const byte nextSlide = 1;
+        const byte prevSlide = 2;
 
         static void Main(string[] args)
         {
@@ -25,34 +19,35 @@ namespace Client
             {
                 listner.Bind(new IPEndPoint(IPAddress.Any, port));
                 listner.Listen(1);
-                Console.WriteLine("\nAwaiting your command\n");
+                Console.WriteLine("\nServer was successfully created. Awaiting your command\n");
                 while (true)
                 {
                     Socket socket = listner.Accept();
+
                     byte[] msg = new byte[1024];
                     int nByte = socket.Receive(msg);
-                    if (msg[0] == (int)Commands.nextSlide)
+
+                    if (msg[0] == nextSlide)
                     {
                         SendKeys.SendWait("{RIGHT}");
                         Console.WriteLine("Switch on next slide");
                     }
-                    else if (msg[0] == (int)Commands.prevSlide)
+                    else if (msg[0] == prevSlide)
                     {
                         SendKeys.SendWait("{LEFT}");
                         Console.WriteLine("Switch on previous slide");
                     }
                     socket.Shutdown(SocketShutdown.Both);
                     socket.Close();
-                    if (msg[0] == (int)Commands.exit)
-                    {
-                        listner.Close();
-                        break;
-                    }
                 }
             }
             catch(Exception ex)
             {
                 Console.WriteLine("Error: " + ex.Message);
+            }
+            finally
+            {
+                listner.Close();
             }
         }
     }
