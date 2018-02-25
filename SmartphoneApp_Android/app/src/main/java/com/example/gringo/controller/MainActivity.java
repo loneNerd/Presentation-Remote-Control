@@ -4,6 +4,9 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,22 +17,28 @@ import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
-    static String serIpAddress = "";
-    static int port = 10000;
-    static final byte test = 0; //Test command
-    static final byte nextSlide = 1;
-    static final byte prevSlide = 2;
-    static boolean successIP = false; //Validation of IP
-    static byte codeCommand = 0; //Variable for buttons indexes
+    String serIpAddress = "";
+    final int port = 10000;
+    final byte test = 0; //Test command
+    final byte nextSlide = 1;
+    final byte prevSlide = 2;
+    boolean successIP = false; //Validation of IP
+    byte codeCommand = 0; //Variable for buttons indexes
+
+    //Alpha animation for button
+    Animation animAlpha;// = AnimationUtils.loadAnimation(this, R.anim.alpha);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        animAlpha = AnimationUtils.loadAnimation(this, R.anim.alpha);
     }
 
     //That method is writes IP
     public void SaveIP(View v) {
+        //Some animation for button
+        v.startAnimation(animAlpha);
 
         EditText etIpAddress = findViewById(R.id.edIpAddress);
         serIpAddress = etIpAddress.getText().toString();
@@ -59,6 +68,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View v) {
+        //Some animation for buttons
+        v.startAnimation(animAlpha);
+
         //Checking IP address line
         if (serIpAddress.isEmpty()) {
             Toast.makeText(this, "Enter server IP to continue", Toast.LENGTH_SHORT).show();
@@ -89,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    static class SenderThread extends AsyncTask<Void, Void, Void> {
+    class SenderThread extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try {

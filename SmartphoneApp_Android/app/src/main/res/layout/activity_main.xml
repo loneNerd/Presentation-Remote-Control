@@ -5,23 +5,31 @@
     android:id="@+id/mainLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gringo.controller.MainActivity">
+    tools:context="com.example.gringo.controller.MainActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <LinearLayout
         android:id="@+id/nextSlideLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/nextSlide"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@android:color/holo_green_light"
+            android:layout_height="match_parent"
+            android:background="#11B90C"
             android:onClick="onClick"
             android:text="Next Slide"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -29,21 +37,20 @@
     <LinearLayout
         android:id="@+id/IPAddressLine"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:gravity="center"
         android:orientation="horizontal"
         android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/prevSlideLayout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18">
+        app:layout_constraintTop_toBottomOf="@+id/nextSlideLayout">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="IP address:"
+            android:text="IP Address:"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp" />
 
@@ -52,6 +59,7 @@
             android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:digits="0123456789."
+            android:inputType=""
             android:selectAllOnFocus="false"
             android:singleLine="true" />
 
@@ -68,25 +76,25 @@
     <LinearLayout
         android:id="@+id/prevSlideLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="259dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/prevSlide"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="457dp"
-            android:background="@android:color/holo_green_light"
+            android:layout_height="match_parent"
+            android:background="#11B90C"
             android:onClick="onClick"
             android:text="Previous Slide"
+            android:textAlignment="center"
             android:textColor="@color/colorAccent"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
