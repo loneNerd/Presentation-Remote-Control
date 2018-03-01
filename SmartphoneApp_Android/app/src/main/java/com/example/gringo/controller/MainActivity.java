@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
     byte codeCommand = 0; //Variable for buttons indexes
 
     //Alpha animation for button
-    Animation animAlpha;// = AnimationUtils.loadAnimation(this, R.anim.alpha);
+    Animation animAlpha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
