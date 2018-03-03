@@ -20,17 +20,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <Button
+        <ImageView
             android:id="@+id/nextSlide"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#11B90C"
+            android:background="@color/icon_launcher_background"
             android:onClick="onClick"
-            android:text="Next Slide"
-            android:textAlignment="center"
-            android:textColor="#006400	"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            app:srcCompat="@drawable/forward_arrow" />
 
     </LinearLayout>
 
@@ -84,17 +80,14 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <ImageView
             android:id="@+id/prevSlide"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="	#FF0000"
             android:onClick="onClick"
-            android:text="Previous Slide"
-            android:textAlignment="center"
-            android:textColor="#8B0000	"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+            app:srcCompat="@drawable/rewind_arrow" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

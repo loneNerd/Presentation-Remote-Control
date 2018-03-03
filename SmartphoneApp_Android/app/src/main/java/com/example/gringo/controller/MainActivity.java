@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.String;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
     final byte test = 0; //Test command
     final byte nextSlide = 1;
     final byte prevSlide = 2;
-    boolean successIP = false; //Validation of IP
     byte codeCommand = 0; //Variable for buttons indexes
 
     //Alpha animation for button
@@ -49,18 +48,6 @@ public class MainActivity extends AppCompatActivity {
             codeCommand = test;
             SenderThread sender = new SenderThread();
             sender.execute();
-
-            try {
-                Thread.sleep(50);
-            } catch (Exception ex) {}
-
-            if (successIP)
-                this.findViewById(R.id.IPAddressLine).setVisibility(View.INVISIBLE);
-            else
-            {
-                Toast.makeText(this, "Enter correct server IP to continue", Toast.LENGTH_SHORT).show();
-                serIpAddress = "";
-            }
         }
         else //If Ip address line Empty
             Toast.makeText(this, "Enter server IP to continue", Toast.LENGTH_SHORT).show();
@@ -70,12 +57,6 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v) {
         //Some animation for buttons
         v.startAnimation(animAlpha);
-
-        //Checking IP address line
-        if (serIpAddress.isEmpty()) {
-            Toast.makeText(this, "Enter server IP to continue", Toast.LENGTH_SHORT).show();
-            return;
-        }
 
         SenderThread sender = new SenderThread();
 
@@ -89,27 +70,13 @@ public class MainActivity extends AppCompatActivity {
             codeCommand = prevSlide;
             sender.execute();
         }
-
-        try {
-            Thread.sleep(50);
-        } catch (Exception ex) {}
-
-        //Checking for lost communication with server
-        if (!successIP) {
-            Toast.makeText(this, "Connection Lost", Toast.LENGTH_SHORT).show();
-            findViewById(R.id.IPAddressLine).setVisibility(View.VISIBLE);
-        }
     }
 
     class SenderThread extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
             try {
-                //I had written this way 'cause I don't know how write this another way
-                //I mean next 3 lines
-                successIP = false;
-                Socket socket = new Socket(serIpAddress, port);
-                successIP = true;
+                Socket socket = new Socket(InetAddress.getByName(serIpAddress), port);
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                 if (codeCommand == nextSlide)
                     out.write(nextSlide);
@@ -118,10 +85,22 @@ public class MainActivity extends AppCompatActivity {
                 else if (codeCommand == test)
                 {
                     out.write(test);
-                    successIP = true;
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            findViewById(R.id.IPAddressLine).setVisibility(View.INVISIBLE);
+                        }
+                    });
                 }
             } catch (IOException ex) {
-                ex.getStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        findViewById(R.id.IPAddressLine).setVisibility(View.VISIBLE);
+                        serIpAddress = "";
+                        Toast.makeText(getApplicationContext(), "Incorrect IP", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
             return null;
         }
